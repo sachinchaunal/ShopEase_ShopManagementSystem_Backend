@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
-const API_URL = process.env.API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.API_URL || 'https://shopease-shopmanagementsystem-backend.onrender.com/api';
 
 // Test function
 const testApi = async () => {
