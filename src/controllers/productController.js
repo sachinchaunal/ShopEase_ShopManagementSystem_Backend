@@ -204,33 +204,14 @@ exports.updateProduct = async (req, res) => {
     };
     
     // Handle image update if provided
-    if (req.file || imageUrl) {
+    if (imageUrl && imageUrl !== product.image) {
       // Delete old image from cloudinary if exists
       if (product.imageId) {
         await deleteImage(product.imageId);
       }
       
-      let imageData = {};
-      
-      if (req.file) {
-        // Image uploaded via multer
-        imageData = {
-          url: req.file.path,
-          public_id: req.file.filename
-        };
-        
-        if (req.file.path.includes('cloudinary')) {
-          // If using cloudinary storage
-          imageData = {
-            url: req.file.path,
-            public_id: req.file.filename
-          };
-        }
-      } else if (imageUrl) {
-        // Image provided as URL
-        imageData = await uploadFromUrl(imageUrl);
-      }
-      
+      // Upload new image
+      const imageData = await uploadFromUrl(imageUrl);
       updateData.image = imageData.url;
       updateData.imageId = imageData.public_id;
     }
